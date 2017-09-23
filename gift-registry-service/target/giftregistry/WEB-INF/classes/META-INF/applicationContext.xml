@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:util="http://www.springframework.org/schema/util"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- include Service SDK libraries -->
+	<import resource="classpath:/META-INF/libraries-spring.xml"/>
+
+	<!-- specify the component scan -->
+	<context:component-scan base-package="com.hybris.yaas.giftregistry"/>
+
+	<!-- import placeholder values from property files and environment, see default.properties -->
+	<context:property-placeholder location="classpath:/default.properties,classpath*:test.properties"/>
+
+	<!-- take annotation-based configuration into account, when instantiating beans -->
+	<context:annotation-config/>
+
+	<bean id="authorizedExecutionTemplate" autowire-candidate="true"
+		  class="com.sap.cloud.yaas.servicesdk.authorization.integration.AuthorizedExecutionTemplate">
+		<constructor-arg ref="accessTokenProvider" />
+	</bean>
+
+	<bean id="accessTokenProvider"
+		  class="com.sap.cloud.yaas.servicesdk.authorization.cache.SimpleCachingProviderWrapper">
+		<constructor-arg>
+			<bean class="com.sap.cloud.yaas.servicesdk.authorization.protocol.ClientCredentialsGrantProvider">
+				<constructor-arg name="restClient" ref="jsonClient" />
+				<property name="tokenEndpointUri" value="${OAUTH2_TOKEN_ENDPOINT_URL}" />
+				<property name="clientId" value="${CLIENT_ID}" />
+				<property name="clientSecret" value="${CLIENT_SECRET}" />
+			</bean>
+		</constructor-arg>
+	</bean>
+
+	<bean id="jsonClient" class="com.hybris.yaas.giftregistry.utility.ClientFactory" />
+
+	<bean id="documentClient"
+		  class="com.hybris.yaas.giftregistry.client.document.DocumentClient">
+		<constructor-arg name="baseUri">
+			<util:constant static-field="com.hybris.yaas.giftregistry.client.document.DocumentClient.DEFAULT_BASE_URI" />
+		</constructor-arg>
+		<constructor-arg name="client" ref="jsonClient" />
+	</bean>
+
+	<bean id="schemaClient"
+		  class="com.hybris.yaas.giftregistry.client.schema.SchemaClient">
+		<constructor-arg name="baseUri">
+			<util:constant static-field="com.hybris.yaas.giftregistry.client.schema.SchemaClient.DEFAULT_BASE_URI" />
+		</constructor-arg>
+		<constructor-arg name="client" ref="jsonClient" />
+	</bean>
+
+    <bean id="emailClient"
+          class="com.hybris.yaas.giftregistry.client.email.EmailServiceClient">
+        <constructor-arg name="baseUri">
+            <util:constant static-field="com.hybris.yaas.giftregistry.client.email.EmailServiceClient.DEFAULT_BASE_URI" />
+        </constructor-arg>
+        <constructor-arg name="client" ref="jsonClient" />
+    </bean>
+
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="com.hybris.yaas.giftregistry.converters.GiftRegistryToDocumentGiftRegistryConverter"/>
+				<bean class="com.hybris.yaas.giftregistry.converters.DocumentGiftRegistryToGiftRegistryConverter"/>
+				<bean class="com.hybris.yaas.giftregistry.converters.EmailToEmailDataConverter"/>
+			</set>
+		</property>
+	</bean>
+</beans>

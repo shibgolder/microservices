@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title":"Gift Item",
+  "type":"object",
+  "properties":
+  {
+    "id":
+    {
+      "$ref":"https://api.yaas.io/patterns/v1/schema-id.json"
+    },
+    "productId":
+    {
+      "type":"string"
+    },
+    "purchased":
+    {
+      "type":"boolean"
+    },
+    "createdAt":
+    {
+      "$ref":"https://api.yaas.io/patterns/v1/schema-createdAt.json"
+    },
+    "quantity":
+    {
+      "type":"int"
+    },
+    "description":
+    {
+      "$ref" : "https://api.yaas.io/patterns/v1/schema-localized.json"
+    }
+  },
+  "required":["productId"]
+}

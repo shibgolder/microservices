@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: giftregistry
+Implementation-Version: 1.0-SNAPSHOT
+Built-By: i850472
+Implementation-Vendor-Id: com.hybris.yaas
+Build-Time: Thu May 26 2016 21:05:716 UTC +0000
+Build-Jdk: 1.8.0_65
+Implementation-URL: http://yaas.io/giftregistry
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: SAP SE
+

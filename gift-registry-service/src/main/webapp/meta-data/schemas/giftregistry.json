@@ -1,0 +1,52 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title":"GiftRegistry",
+  "type":"object",
+  "properties":
+  {
+    "id":
+    {
+      "$ref":"https://api.yaas.io/patterns/v1/schema-id.json"
+    },
+    "url":
+    {
+      "type":"string",
+      "format":"uri"
+    },
+    "ownerId":
+    {
+      "type":"string",
+      "pattern":"^.+"
+    },
+    "title":
+    {
+      "type":"string",
+      "pattern":"^.+"
+    },
+    "description":
+    {
+        "$ref" : "https://api.yaas.io/patterns/v1/schema-localized.json"
+    },
+    "createdAt":
+    {
+      "$ref":"https://api.yaas.io/patterns/v1/schema-createdAt.json"
+    },
+    "giftIds":
+    {
+      "type":"array",
+      "items":
+      {
+        "type":"string"
+      }
+    },
+    "contributorIds":
+    {
+      "type":"array",
+      "items":
+      {
+        "type":"string"
+      }
+    }
+  },
+  "required":["ownerId","title"]
+}

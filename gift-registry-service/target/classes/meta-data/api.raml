@@ -1,0 +1,86 @@
+#%RAML 0.8
+title: YaaS Gift Registry Service
+baseUri: http://localhost/
+version: v1
+mediaType:  application/json
+
+schemas:
+  - giftRegistries: !include schemas/giftregistries.json
+  - giftRegistry: !include schemas/giftregistry.json
+  - gift: !include schemas/gift.json
+  - gifts: !include schemas/gifts.json
+  - email: !include schemas/email.json
+  - emailaddress: !include schemas/emailaddress.json
+  - error: !include https://api.yaas.io/patterns/v1/schema-error-message.json
+
+traits:
+  - !include https://api.yaas.io/patterns/v2/trait-yaas-aware.yaml
+  - !include https://api.yaas.io/patterns/v2/trait-paged.yaml
+  - !include https://api.yaas.io/patterns/v1/trait-countable.yaml
+  - !include https://api.yaas.io/patterns/v1/trait-sortable.yaml
+
+resourceTypes:
+  - !include https://api.yaas.io/patterns/v2/resource-type-element.yaml
+  - !include https://api.yaas.io/patterns/v1/resource-type-collection.yaml
+
+/giftRegistries:
+  type: collection
+  is: [yaasAware]
+  get:
+    description: Gets all Gift Registries
+    is: [paged, sortable, countable]
+
+  post:
+    description: Creates a new Gift Registry
+
+  /{giftRegistryId}:
+    type: element
+    is: [yaasAware]
+    uriParameters:
+      giftRegistryId:
+        description: the id of the Gift Registry to work on
+        type: string
+    get:
+      description: Gets a Gift Registry
+
+    put:
+      description: Updates a Gift Registry
+
+    delete:
+      description: Deletes a Gift Registry
+
+    /gifts:
+      type: collection
+      is: [yaasAware]
+
+      get:
+        description: Get all the gifts for a Gift Registry.
+
+      post:
+        description: Create a new gift for Gift Registry
+
+      /{giftId} :
+        type: element
+        is: [yaasAware]
+        uriParameters:
+          giftId:
+              description: the id of the Gift to work on
+              type: string
+        get:
+          description: Gets a Gift
+
+        put:
+          description: Updates a Gift
+
+        delete:
+          description: Deletes a Gift
+
+    /share/email:
+      is: [yaasAware]
+      post:
+        description: Send email to your contributors
+        body:
+          application/json:
+            schema: email
+
+

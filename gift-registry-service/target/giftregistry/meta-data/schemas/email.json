@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title":"Email your contributors",
+  "type":"object",
+  "properties":
+  {
+    "toAddress" : {
+      "description" : "The primary recepient's email address. This is a short-form alternative to the \"to\" property in cases when only one recipient is intended.",
+      "type" : "string",
+      "format" : "email",
+      "maxLength" : 200
+    },
+    "toName" : {
+      "description" : "The primary recepient's display name. This is a short-form alternative to the \"to\" property in cases when only one recipient is intended.",
+      "type" : "string",
+      "minLength" : 1,
+      "pattern" : "^[\\p{L}0-9\\s]*$",
+      "maxLength" : 100
+    },
+    "to":
+    {
+      "description" : "Array of the TO list",
+      "type":"array",
+      "items":
+      {
+        "$ref":"emailaddress"
+      }
+    }
+  }
+}

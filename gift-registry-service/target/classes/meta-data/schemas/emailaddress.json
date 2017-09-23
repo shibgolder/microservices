@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title":"Email Address",
+  "type":"object",
+  "properties":
+  {
+    "address":
+    {
+      "description" : "Email address",
+      "type":"string",
+      "format": "email",
+      "maxLength" : 200
+
+    },
+    "name" : {
+      "description" : "The display name",
+      "type" : "string",
+      "minLength" : 1,
+      "pattern" : "^[\\p{L}0-9\\s]*$",
+      "maxLength" : 100
+    }
+  },
+  "required":["address"]
+}

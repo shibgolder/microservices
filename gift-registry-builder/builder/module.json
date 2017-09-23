@@ -1,0 +1,12 @@
+{
+    "widgets": [
+        {
+            "id": "gift-registry-builder",
+            "title": "gift-registry-builder",
+            "settings": {
+                "viewUrl": "index.html",
+                "example_setting": "some value"
+            }
+        }
+    ]
+}

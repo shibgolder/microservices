@@ -1,2 +1,1 @@
-# microservices
-Micro service implementation using YAAS
+YaaS Gift Registry Service
